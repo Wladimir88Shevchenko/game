@@ -22,7 +22,7 @@ function humanoid_mage(name) {
     this.intellect = 60;
 }
 
-humanoid_mage.prototype.attack = function (enemy) {
+humanoid_mage.prototype.attack = function(enemy) {
     if (enemy.armor >= this.intellect) {
         enemy.armor -= this.intellect;
     } else {
@@ -32,11 +32,17 @@ humanoid_mage.prototype.attack = function (enemy) {
         if (enemy.health <= 0) {
             alert(enemy.name + "  lose this game.");
             console.log(enemy.name + "  lose this game.");
+            if (confirm("Хотите сыграть еще?")) {
+                location.reload();
+            } else {
+                window.close();
+            }
+
         }
     }
 }
 
-humanoid_mage.prototype.read = function () {
+humanoid_mage.prototype.read = function() {
     this.intellect += 100;
 }
 
@@ -53,7 +59,7 @@ function humanoid_warrior(name) {
     this.strength = 30;
 }
 
-humanoid_warrior.prototype.attack = function (enemy) {
+humanoid_warrior.prototype.attack = function(enemy) {
     if (enemy.armor >= this.strength) {
         enemy.armor -= this.strength;
 
@@ -64,13 +70,18 @@ humanoid_warrior.prototype.attack = function (enemy) {
         if (enemy.health <= 0) {
             alert(enemy.name + "  lose this game.");
             console.log(enemy.name + "  lose this game.");
+            if (confirm("Хотите сыграть еще?")) {
+                location.reload();
+            } else {
+                window.close();
+            }
         }
     }
 }
 
 humanoid_warrior.prototype.show = show;
 
-humanoid_warrior.prototype.train = function () {
+humanoid_warrior.prototype.train = function() {
     this.health += 90;
     if (this.health > this.maxhealth) {
         this.maxhealth = this.health;
@@ -91,6 +102,7 @@ var atk1 = document.querySelectorAll("#btn_atk1")[0];
 var train1 = document.querySelectorAll("#btn_train1")[0];
 var proto_line1 = document.querySelectorAll(".proto_line_left")[0];
 var left_health_line = document.querySelectorAll(".health_line_left>.green_line")[0];
+var left_armor_line = document.querySelectorAll(".proto_line_left>.gray_line")[0];
 document.querySelectorAll("#first_player_name")[0].innerHTML = first_name;
 
 do {
@@ -130,6 +142,7 @@ var armor2 = document.querySelectorAll("#armor2")[0];
 var atk2 = document.querySelectorAll("#btn_atk2")[0];
 var train2 = document.querySelectorAll("#btn_train2")[0];
 var proto_line2 = document.querySelectorAll(".proto_line_right")[0];
+var right_armor_line = document.querySelectorAll(".proto_line_right>.gray_line")[0];
 var right_health_line = document.querySelectorAll(".health_line_right>.green_line")[0];
 document.querySelectorAll("#second_player_name")[0].innerHTML = second_name;
 
@@ -163,11 +176,19 @@ if (who_will_be2 == "маг") {
 
 /* TRAIN */
 
-train1.addEventListener("click", function () {
+train1.addEventListener("click", function() {
     if (first.who == "mage") {
+        div_left.src = "images/mage/left/read.png";
+        setTimeout(function() {
+            div_left.src = "images/mage/left/normal.png";
+        }, 1000);
         first.read();
         power1.innerHTML = first.intellect;
     } else {
+        div_left.src = "images/warrior/left/train.png";
+        setTimeout(function() {
+            div_left.src = "images/warrior/left/normal.png";
+        }, 1000);
         first.train();
         health1.innerHTML = first.health;
         let proc1 = (first.health / first.maxhealth) * 100;
@@ -175,11 +196,20 @@ train1.addEventListener("click", function () {
     }
 });
 
-train2.addEventListener("click", function () {
+train2.addEventListener("click", function() {
+
     if (second.who == "mage") {
+        div_right.src = "images/mage/right/read.png";
+        setTimeout(function() {
+            div_right.src = "images/mage/right/normal.png";
+        }, 1000);
         second.read();
         power2.innerHTML = second.intellect;
     } else {
+        div_right.src = "images/warrior/right/train.png";
+        setTimeout(function() {
+            div_right.src = "images/warrior/right/normal.png";
+        }, 1000);
         second.train();
         health2.innerHTML = second.health;
         let proc2 = (second.health / second.maxhealth) * 100;
@@ -193,18 +223,42 @@ train2.addEventListener("click", function () {
 
 /* ATACK */
 
-atk1.addEventListener("click", function () {
+atk1.addEventListener("click", function() {
+    if (first.who == "mage") {
+        div_left.src = "images/mage/left/attak.png";
+        setTimeout(function() {
+            div_left.src = "images/mage/left/normal.png";
+        }, 1000);
+    } else {
+        div_left.src = "images/warrior/left/attack.png";
+        setTimeout(function() {
+            div_left.src = "images/warrior/left/normal.png";
+        }, 1000);
+    }
     first.attack(second);
     health2.innerHTML = second.health;
     armor2.innerHTML = second.armor;
     var proc3 = (second.health / second.maxhealth) * 100;
     right_health_line.style.width = proc3 + "%";
     proc3 = (second.armor / 200) * 100;
-    armor2.style.width = proc3 + "%";   
+    right_armor_line.style.width = proc3 + "%";
+
 
 });
 
-atk2.addEventListener("click", function () {
+atk2.addEventListener("click", function() {
+    if (second.who == "mage") {
+        div_right.src = "images/mage/right/attak.png";
+        setTimeout(function() {
+            div_right.src = "images/mage/right/normal.png";
+        }, 1000);
+    } else {
+        div_right.src = "images/warrior/right/attack.png";
+        setTimeout(function() {
+            div_right.src = "images/warrior/right/normal.png";
+        }, 1000);
+    }
+
     second.attack(first);
     health1.innerHTML = first.health;
     armor1.innerHTML = first.armor;
@@ -212,7 +266,9 @@ atk2.addEventListener("click", function () {
     proc3 = (first.health / first.maxhealth) * 100;
     left_health_line.style.width = proc3 + "%";
     proc3 = (first.armor / 200) * 100;
-    armor1.style.width = proc3 + "%";
+    left_armor_line.style.width = proc3 + "%";
+
+
 
 });
 
