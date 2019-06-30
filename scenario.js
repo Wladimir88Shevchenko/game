@@ -100,6 +100,8 @@ var armor_title1 = document.querySelectorAll("#armor_health1")[0];
 var armor1 = document.querySelectorAll("#armor1")[0];
 var atk1 = document.querySelectorAll("#btn_atk1")[0];
 var train1 = document.querySelectorAll("#btn_train1")[0];
+var l_btns = document.querySelectorAll(".left_buttons>button");
+var r_btns = document.querySelectorAll(".right_buttons>button");
 var proto_line1 = document.querySelectorAll(".proto_line_left")[0];
 var left_health_line = document.querySelectorAll(".health_line_left>.green_line")[0];
 var left_armor_line = document.querySelectorAll(".proto_line_left>.gray_line")[0];
@@ -194,6 +196,11 @@ train1.addEventListener("click", function() {
         let proc1 = (first.health / first.maxhealth) * 100;
         left_health_line.style.width = proc1 + "%";
     }
+    l_btns[0].style.visibility = "hidden";
+    l_btns[1].style.visibility = "hidden";
+    r_btns[0].style.visibility = "visible";
+    r_btns[1].style.visibility = "visible";
+
 });
 
 train2.addEventListener("click", function() {
@@ -215,6 +222,10 @@ train2.addEventListener("click", function() {
         let proc2 = (second.health / second.maxhealth) * 100;
         right_health_line.style.width = proc2 + "%";
     }
+    l_btns[0].style.visibility = "visible";
+    l_btns[1].style.visibility = "visible";
+    r_btns[0].style.visibility = "hidden";
+    r_btns[1].style.visibility = "hidden";
 });
 
 /* ZZZ TRAIN */
@@ -224,6 +235,7 @@ train2.addEventListener("click", function() {
 /* ATACK */
 
 atk1.addEventListener("click", function() {
+
     if (first.who == "mage") {
         div_left.src = "images/mage/left/attak.png";
         setTimeout(function() {
@@ -242,7 +254,10 @@ atk1.addEventListener("click", function() {
     right_health_line.style.width = proc3 + "%";
     proc3 = (second.armor / 200) * 100;
     right_armor_line.style.width = proc3 + "%";
-
+    l_btns[0].style.visibility = "hidden";
+    l_btns[1].style.visibility = "hidden";
+    r_btns[0].style.visibility = "visible";
+    r_btns[1].style.visibility = "visible";
 
 });
 
@@ -267,7 +282,10 @@ atk2.addEventListener("click", function() {
     left_health_line.style.width = proc3 + "%";
     proc3 = (first.armor / 200) * 100;
     left_armor_line.style.width = proc3 + "%";
-
+    l_btns[0].style.visibility = "visible";
+    l_btns[1].style.visibility = "visible";
+    r_btns[0].style.visibility = "hidden";
+    r_btns[1].style.visibility = "hidden";
 
 
 });
